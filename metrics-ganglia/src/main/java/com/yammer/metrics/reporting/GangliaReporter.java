@@ -353,11 +353,16 @@ public class GangliaReporter extends AbstractPollingReporter implements MetricPr
         final String rateUnits = meter.rateUnit().name();
         final String rateUnit = rateUnits.substring(0, rateUnits.length() - 1).toLowerCase(Locale.US);
         final String unit = meter.eventType() + '/' + rateUnit;
-        printLongField(sanitizedName + ".count", meter.count(), "metered", meter.eventType());
-        printDoubleField(sanitizedName + ".meanRate", meter.meanRate(), "metered", unit);
-        printDoubleField(sanitizedName + ".1MinuteRate", meter.oneMinuteRate(), "metered", unit);
-        printDoubleField(sanitizedName + ".5MinuteRate", meter.fiveMinuteRate(), "metered", unit);
-        printDoubleField(sanitizedName + ".15MinuteRate", meter.fifteenMinuteRate(), "metered", unit);
+        if (predicate.matches(name, meter, "count"))
+            printLongField(sanitizedName + ".count", meter.count(), "metered", meter.eventType());
+        if (predicate.matches(name, meter, "meanRate"))
+            printDoubleField(sanitizedName + ".meanRate", meter.meanRate(), "metered", unit);
+        if (predicate.matches(name, meter, "1MinuteRate"))
+            printDoubleField(sanitizedName + ".1MinuteRate", meter.oneMinuteRate(), "metered", unit);
+        if (predicate.matches(name, meter, "5MinuteRate"))
+            printDoubleField(sanitizedName + ".5MinuteRate", meter.fiveMinuteRate(), "metered", unit);
+        if (predicate.matches(name, meter, "15MinuteRate"))
+            printDoubleField(sanitizedName + ".15MinuteRate", meter.fifteenMinuteRate(), "metered", unit);
     }
 
     @Override
@@ -365,16 +370,26 @@ public class GangliaReporter extends AbstractPollingReporter implements MetricPr
         final String sanitizedName = sanitizeName(name);
         final Snapshot snapshot = histogram.getSnapshot();
         // TODO:  what units make sense for histograms?  should we add event type to the Histogram metric?
-        printDoubleField(sanitizedName + ".min", histogram.min(), "histo");
-        printDoubleField(sanitizedName + ".max", histogram.max(), "histo");
-        printDoubleField(sanitizedName + ".mean", histogram.mean(), "histo");
-        printDoubleField(sanitizedName + ".stddev", histogram.stdDev(), "histo");
-        printDoubleField(sanitizedName + ".median", snapshot.getMedian(), "histo");
-        printDoubleField(sanitizedName + ".75percentile", snapshot.get75thPercentile(), "histo");
-        printDoubleField(sanitizedName + ".95percentile", snapshot.get95thPercentile(), "histo");
-        printDoubleField(sanitizedName + ".98percentile", snapshot.get98thPercentile(), "histo");
-        printDoubleField(sanitizedName + ".99percentile", snapshot.get99thPercentile(), "histo");
-        printDoubleField(sanitizedName + ".999percentile", snapshot.get999thPercentile(), "histo");
+        if (predicate.matches(name, histogram, "min"))
+            printDoubleField(sanitizedName + ".min", histogram.min(), "histo");
+        if (predicate.matches(name, histogram, "max"))
+            printDoubleField(sanitizedName + ".max", histogram.max(), "histo");
+        if (predicate.matches(name, histogram, "mean"))
+            printDoubleField(sanitizedName + ".mean", histogram.mean(), "histo");
+        if (predicate.matches(name, histogram, "stddev"))
+            printDoubleField(sanitizedName + ".stddev", histogram.stdDev(), "histo");
+        if (predicate.matches(name, histogram, "median"))
+            printDoubleField(sanitizedName + ".median", snapshot.getMedian(), "histo");
+        if (predicate.matches(name, histogram, "75percentile"))
+            printDoubleField(sanitizedName + ".75percentile", snapshot.get75thPercentile(), "histo");
+        if (predicate.matches(name, histogram, "95percentile"))
+            printDoubleField(sanitizedName + ".95percentile", snapshot.get95thPercentile(), "histo");
+        if (predicate.matches(name, histogram, "98percentile"))
+            printDoubleField(sanitizedName + ".98percentile", snapshot.get98thPercentile(), "histo");
+        if (predicate.matches(name, histogram, "99percentile"))
+            printDoubleField(sanitizedName + ".99percentile", snapshot.get99thPercentile(), "histo");
+        if (predicate.matches(name, histogram, "999percentile"))
+            printDoubleField(sanitizedName + ".999percentile", snapshot.get999thPercentile(), "histo");
     }
 
     @Override
@@ -383,16 +398,26 @@ public class GangliaReporter extends AbstractPollingReporter implements MetricPr
         final String sanitizedName = sanitizeName(name);
         final Snapshot snapshot = timer.getSnapshot();
         final String durationUnit = timer.durationUnit().name();
-        printDoubleField(sanitizedName + ".min", timer.min(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".max", timer.max(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".mean", timer.mean(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".stddev", timer.stdDev(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".median", snapshot.getMedian(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".75percentile", snapshot.get75thPercentile(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".95percentile", snapshot.get95thPercentile(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".98percentile", snapshot.get98thPercentile(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".99percentile", snapshot.get99thPercentile(), "timer", durationUnit);
-        printDoubleField(sanitizedName + ".999percentile", snapshot.get999thPercentile(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "min"))
+            printDoubleField(sanitizedName + ".min", timer.min(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "max"))
+            printDoubleField(sanitizedName + ".max", timer.max(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "mean"))
+          printDoubleField(sanitizedName + ".mean", timer.mean(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "stddev"))
+            printDoubleField(sanitizedName + ".stddev", timer.stdDev(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "median"))
+            printDoubleField(sanitizedName + ".median", snapshot.getMedian(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "75percentile"))
+            printDoubleField(sanitizedName + ".75percentile", snapshot.get75thPercentile(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "95percentile"))
+            printDoubleField(sanitizedName + ".95percentile", snapshot.get95thPercentile(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "98percentile"))
+            printDoubleField(sanitizedName + ".98percentile", snapshot.get98thPercentile(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "99percentile"))
+            printDoubleField(sanitizedName + ".99percentile", snapshot.get99thPercentile(), "timer", durationUnit);
+        if (predicate.matches(name, timer, "999percentile"))
+            printDoubleField(sanitizedName + ".999percentile", snapshot.get999thPercentile(), "timer", durationUnit);
     }
 
     private void printDoubleField(String name, double value, String groupName, String units) {
