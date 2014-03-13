@@ -60,6 +60,7 @@ public class GangliaReporterTest extends AbstractPollingReporterTest {
 
         final GangliaReporter reporter = new GangliaReporter(registry,
                                                              "group-prefix",
+                                                             null,
                                                              MetricPredicate.ALL,
                                                              false,
                                                              messageBuilder,
