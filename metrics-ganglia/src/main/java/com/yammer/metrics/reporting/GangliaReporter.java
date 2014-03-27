@@ -139,6 +139,24 @@ public class GangliaReporter extends AbstractPollingReporter implements MetricPr
      * @param gangliaHost          the gangliaHost name of ganglia server (carbon-cache agent)
      * @param port                 the port number on which the ganglia server is listening
      * @param groupPrefix          prefix to the ganglia group name (such as myapp_counter)
+     * @param predicate            filters metrics to be reported
+     * @param compressPackageNames if true reporter will compress package names e.g.
+     *                             com.foo.MetricName becomes c.f.MetricName
+     */
+    public static void enable(MetricsRegistry metricsRegistry, long period, TimeUnit unit, String gangliaHost,
+            int port, String groupPrefix, MetricPredicate predicate, boolean compressPackageNames) {
+        enable(metricsRegistry, period, unit, gangliaHost, port, groupPrefix, null, predicate, compressPackageNames);
+    }
+
+    /**
+     * Enables the ganglia reporter to send data to ganglia server with the specified period.
+     *
+     * @param metricsRegistry      the metrics registry
+     * @param period               the period between successive outputs
+     * @param unit                 the time unit of {@code period}
+     * @param gangliaHost          the gangliaHost name of ganglia server (carbon-cache agent)
+     * @param port                 the port number on which the ganglia server is listening
+     * @param groupPrefix          prefix to the ganglia group name (such as myapp_counter)
      * @param metricPrefix         prefix to the metric name
      * @param predicate            filters metrics to be reported
      * @param compressPackageNames if true reporter will compress package names e.g.
